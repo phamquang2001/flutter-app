@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SnackbarUtil {
   SnackbarUtil._();
 
-  static void showSuccess(BuildContext context) {
-    const snackBar = SnackBar(
-      content: Text("Successfully!"),
-      backgroundColor: Colors.green,
-      showCloseIcon: true,
+  static void showSuccess(String message, {String? title, Duration? duration}) {
+    Get.rawSnackbar(
+      snackPosition: SnackPosition.TOP,
+      messageText: Text(
+        message,
+        style: const TextStyle(fontSize: 14, color: Colors.black),
+      ),
+      backgroundColor: Colors.green.shade200,
+      duration: duration ?? const Duration(milliseconds: 3000),
+      margin: const EdgeInsets.only(left: 12, right: 12),
+      borderRadius: 8,
     );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static void showError(BuildContext context) {
-    const snackBar = SnackBar(
-      content: Text("Failed!"),
-      backgroundColor: Colors.red,
-      showCloseIcon: true,
+  static void showError(String message, {String? title, Duration? duration}) {
+    Get.rawSnackbar(
+      snackPosition: SnackPosition.TOP,
+      messageText: Text(
+        message,
+        style: const TextStyle(fontSize: 14, color: Colors.black),
+      ),
+      backgroundColor: Colors.red.shade200,
+      duration: duration ?? const Duration(milliseconds: 3000),
+      margin: const EdgeInsets.only(left: 12, right: 12),
+      borderRadius: 8,
     );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

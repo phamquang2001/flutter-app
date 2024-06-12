@@ -1,8 +1,10 @@
+import 'package:flutter_application_1/constants/paths.dart';
 import 'package:flutter_application_1/helpers/app_shared_pref.dart';
 import 'package:flutter_application_1/helpers/dio_client.dart';
 import 'package:flutter_application_1/models/auth/login_request.dart';
 import 'package:flutter_application_1/models/auth/login_response.dart';
 import 'package:flutter_application_1/models/police/police_entity.dart';
+import 'package:get/get.dart';
 
 class AuthService {
   AuthService._();
@@ -31,7 +33,19 @@ class AuthService {
     return PoliceEntity.fromJson(response.data['data']);
   }
 
-  static Future<void> forgetPassword(String policeId) async {
-    await dio.get("/auth/forget-password?policeId=$policeId");
+  static Future<void> forgotPassword(String identifyNumber) async {
+    await dio.get("/auth/forget-password?identifyNumber=$identifyNumber");
+  }
+
+  static Future<bool> isLoggedIn() async {
+    String? accessToken = await AppSharedPref.getAccessToken();
+
+    return accessToken != null;
+  }
+
+  static Future<void> logout() async {
+    await AppSharedPref.clear();
+
+    Get.offAllNamed(AppPaths.login);
   }
 }

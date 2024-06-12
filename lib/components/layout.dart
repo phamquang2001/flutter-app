@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/menu.dart';
 import 'package:flutter_application_1/constants/paths.dart';
-import 'package:flutter_application_1/helpers/app_shared_pref.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_application_1/services/auth.service.dart';
+import 'package:get/get.dart';
 
 class Layout extends StatelessWidget {
   final Widget body;
   final String title;
+  final FloatingActionButton? floatingActionButton;
 
   const Layout({
     super.key,
     required this.body,
     required this.title,
+    this.floatingActionButton,
   });
 
   @override
   Widget build(BuildContext context) {
-    Future<void> handleLogout() async {
-      await AppSharedPref.clear();
-
-      context.replace("/${AppPaths.login}");
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -32,11 +28,12 @@ class Layout extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () {
-              context.go(AppPaths.home);
+              Get.offAllNamed(AppPaths.home);
             },
           ),
         ],
       ),
+      floatingActionButton: floatingActionButton,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -63,7 +60,7 @@ class Layout extends StatelessWidget {
                   leading: item.icon,
                   title: Text(item.label),
                   onTap: () {
-                    context.go("/${item.pathname}");
+                    Get.offAllNamed(item.pathname);
                   },
                 );
               },
@@ -72,7 +69,7 @@ class Layout extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text("Đăng xuất"),
               onTap: () {
-                handleLogout();
+                AuthService.logout();
               },
             )
           ],

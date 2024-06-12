@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/build_text_field.dart';
 import 'package:flutter_application_1/components/layout.dart';
 import 'package:flutter_application_1/constants/maps.dart';
-import 'package:flutter_application_1/constants/paths.dart';
 import 'package:flutter_application_1/helpers/app_shared_pref.dart';
 import 'package:flutter_application_1/models/police/police_entity.dart';
 import 'package:flutter_application_1/utils/date_formatter.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,21 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    checkSession();
+    initUserProfile();
 
     super.initState();
-  }
-
-  Future<void> checkSession() async {
-    String? accessToken = await AppSharedPref.getAccessToken();
-
-    if (accessToken != null) {
-      await initUserProfile();
-    } else {
-      await AppSharedPref.clear();
-
-      context.replace("/${AppPaths.login}");
-    }
   }
 
   Future<void> initUserProfile() async {
@@ -89,38 +75,36 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Layout(
       title: "Thông tin người dùng",
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildTextField('Số CCCD', identifyNumberController),
-                buildTextField('Họ và tên', fullNameController),
-                buildTextField('Số điện thoại', phoneController),
-                buildTextField('Email', emailController),
-                Row(
-                  children: [
-                    Expanded(child: buildTextField('Giới tính', genderController)),
-                    const SizedBox(width: 16.0),
-                    Expanded(child: buildTextField('Ngày sinh', birthDateController)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(child: buildTextField('Cấp bậc', levelController)),
-                    const SizedBox(width: 16.0),
-                    Expanded(child: buildTextField('Chức vụ', roleController)),
-                  ],
-                ),
-                buildTextField('Đơn vị công tác', workUnitController),
-                buildTextField('Ngày tạo', createdDateController),
-                buildTextField('Người tạo', creatorNameController),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildTextField('Số CCCD', identifyNumberController),
+              buildTextField('Họ và tên', fullNameController),
+              buildTextField('Số điện thoại', phoneController),
+              buildTextField('Email', emailController),
+              Row(
+                children: [
+                  Expanded(child: buildTextField('Giới tính', genderController)),
+                  const SizedBox(width: 16.0),
+                  Expanded(child: buildTextField('Ngày sinh', birthDateController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(child: buildTextField('Cấp bậc', levelController)),
+                  const SizedBox(width: 16.0),
+                  Expanded(child: buildTextField('Chức vụ', roleController)),
+                ],
+              ),
+              buildTextField('Đơn vị công tác', workUnitController),
+              buildTextField('Ngày tạo', createdDateController),
+              buildTextField('Người tạo', creatorNameController),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

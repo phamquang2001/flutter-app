@@ -9,6 +9,7 @@ class SearchTreatmentPlace {
   String? fullName;
   String? leaderFullName;
   String? leaderPhoneNumber;
+  String? identifyNumber;
   int? cityId;
   int? districtId;
   int? wardId;
@@ -19,6 +20,7 @@ class SearchTreatmentPlace {
     this.fullName = "",
     this.leaderFullName = "",
     this.leaderPhoneNumber = "",
+    this.identifyNumber = "",
     this.cityId = 0,
     this.districtId = 0,
     this.wardId = 0,
